@@ -4,10 +4,12 @@ import com.capitole.inditex.pricingms.domain.model.Price;
 import com.capitole.inditex.pricingms.domain.port.PriceRepositoryPort;
 import com.capitole.inditex.pricingms.infrastructure.mapper.PriceMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +39,7 @@ public class JpaPriceAdapter implements PriceRepositoryPort {
      * @return a list of prices that match the criteria
      */
     @Override
-    public List<Price> findByBrandIdAndProductIdAndApplicationDate(Integer brandId, Integer productId, LocalDateTime applicationDate) {
+    public List<Price> findByBrandIdAndProductIdAndApplicationDate(UUID brandId, UUID productId, LocalDateTime applicationDate) {
 
         return repository.findByBrandIdAndProductIdAndDate(brandId, productId, applicationDate)
                 .stream()

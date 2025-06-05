@@ -28,5 +28,5 @@ public interface SpringDataPriceRepository extends JpaRepository<PriceEntity, UU
             WHERE p.brandId = :brandId AND p.productId = :productId
             AND :applicationDate BETWEEN p.startDate AND p.endDate
             """)
-    List<PriceEntity> findByBrandIdAndProductIdAndDate(Integer brandId, Integer productId, LocalDateTime applicationDate);
+    List<PriceEntity> findByBrandIdAndProductIdAndDate(UUID brandId, UUID productId, LocalDateTime applicationDate);
 }

@@ -4,6 +4,7 @@ import com.capitole.inditex.pricingms.domain.model.Price;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Port interface for Price repository operations.
@@ -20,6 +21,6 @@ public interface PriceRepositoryPort {
      * @return a list of prices that match the criteria
      */
     List<Price> findByBrandIdAndProductIdAndApplicationDate(
-            Integer brandId, Integer productId, LocalDateTime applicationDate);
+            UUID brandId, UUID productId, LocalDateTime applicationDate);
 
 }
