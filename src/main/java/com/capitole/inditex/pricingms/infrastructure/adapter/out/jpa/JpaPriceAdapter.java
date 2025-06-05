@@ -4,7 +4,6 @@ import com.capitole.inditex.pricingms.domain.model.Price;
 import com.capitole.inditex.pricingms.domain.port.PriceRepositoryPort;
 import com.capitole.inditex.pricingms.infrastructure.mapper.PriceMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;

@@ -3,7 +3,12 @@ package com.capitole.inditex.pricingms.infrastructure.adapter.in.rest;
 import com.capitole.inditex.pricingms.application.command.GetPriceCommand;
 import com.capitole.inditex.pricingms.application.response.PriceResponse;
 import com.capitole.inditex.pricingms.application.usecase.GetPriceLogic;
+import com.capitole.inditex.pricingms.infrastructure.exception.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +42,21 @@ public class PriceController {
      * @return a ResponseEntity containing the PriceResponse with the applicable price details
      */
     @PostMapping
-    @Operation(summary = "Get applicable price", description = "Returns the applicable price for a given product, brand and application date")
-    public ResponseEntity<PriceResponse> getPrice(@RequestBody GetPriceCommand command) {
+    @Operation(
+            summary = "Get applicable price",
+            description = "Returns the applicable price for a given product, brand, and application date"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Applicable price successfully retrieved",
+                    content = @Content(schema = @Schema(implementation = PriceResponse.class))),
+            @ApiResponse(responseCode = "404", description = "No applicable price found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    public ResponseEntity<PriceResponse> getPrice(@RequestBody final GetPriceCommand command) {
         PriceResponse response = getPriceLogic.execute(command);
         return ResponseEntity.ok(response);
     }
