@@ -13,7 +13,7 @@ public class PriceNotFoundException extends RuntimeException {
      *
      * @param message the detail message, which is saved for later retrieval by the getMessage() method
      */
-    public PriceNotFoundException(String message) {
+    public PriceNotFoundException(final String message) {
         super(message);
     }
 }

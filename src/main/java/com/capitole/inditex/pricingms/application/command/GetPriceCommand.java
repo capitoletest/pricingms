@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Command to retrieve the price for a specific product and brand at a given application date.
+ * @param brandId the unique identifier of the brand
+ * @param productId the unique identifier of the product
+ * @param applicationDate the date and time when the price is requested
  */
 @Schema(name = "GetPriceCommand", description = "Request object containing the necessary data to retrieve a price.")
 public record GetPriceCommand(

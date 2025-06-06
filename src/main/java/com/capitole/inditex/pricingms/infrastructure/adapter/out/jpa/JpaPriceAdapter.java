@@ -37,7 +37,7 @@ public class JpaPriceAdapter implements PriceRepositoryPort {
      * @return a list of prices that match the criteria
      */
     @Override
-    public List<Price> findByBrandIdAndProductIdAndApplicationDate(Integer brandId, Integer productId, LocalDateTime applicationDate) {
+    public List<Price> findByBrandIdAndProductIdAndApplicationDate(final Integer brandId, final Integer productId, final LocalDateTime applicationDate) {
 
         return repository.findByBrandIdAndProductIdAndDate(brandId, productId, applicationDate)
                 .stream()

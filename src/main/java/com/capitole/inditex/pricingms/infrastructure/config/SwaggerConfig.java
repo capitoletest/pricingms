@@ -15,6 +15,12 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(servers = @Server(url = "${server.servlet.context-path}", description = "Pricing Service API"))
 public class SwaggerConfig {
 
+    /**
+     * Bean definition for OpenAPI documentation.
+     * This method creates an OpenAPI instance with service information.
+     *
+     * @return OpenAPI instance with service information
+     */
     @Bean
     public OpenAPI pricingServiceOpenAPI() {
         return new OpenAPI()

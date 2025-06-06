@@ -58,7 +58,7 @@ public final class GetPriceService implements GetPriceLogic {
      * @param price the Price domain model
      * @return the mapped PriceResponse DTO
      */
-    private PriceResponse mapToResponse(Price price) {
+    private PriceResponse mapToResponse(final Price price) {
         return new PriceResponse(
                 price.brandId(),
                 price.productId(),
