@@ -1,7 +1,15 @@
 package com.capitole.inditex.pricingms.infrastructure.entitty;
 
-import jakarta.persistence.*;
-import lombok.*;
+
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -70,6 +78,6 @@ public class PriceEntity {
     /**
      * Currency in which the price is expressed.
      */
-    @Column(name = "prices_currency", nullable = false, length = 3)
+    @Column(name = "prices_currency", nullable = false)
     private String currency;
 }

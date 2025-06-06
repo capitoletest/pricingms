@@ -8,6 +8,13 @@ import java.time.LocalDateTime;
 
 /**
  * Response object containing the details of a price.
+ *
+ * @param brandId    The unique identifier of the brand.
+ * @param productId  The unique identifier of the product.
+ * @param priceList  The identifier of the price list.
+ * @param price      The final price to apply.
+ * @param startDate  Start date and time when the price is valid.
+ * @param endDate    End date and time when the price is no longer valid.
  */
 @Schema(name = "PriceResponse", description = "Response containing the applicable price details.")
 public record PriceResponse(

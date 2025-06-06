@@ -31,7 +31,7 @@ public class GlobalHandlerException {
      * @return ResponseEntity with error details
      */
     @ExceptionHandler(PriceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePriceNotFound(PriceNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handlePriceNotFound(final PriceNotFoundException ex) {
         log.error("Price not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse("PRICE_NOT_FOUND", ex.getMessage()));
@@ -44,7 +44,7 @@ public class GlobalHandlerException {
      * @return ResponseEntity with error details
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleValidationErrors(final MethodArgumentNotValidException ex) {
         String message = ex.getBindingResult().getFieldErrors()
                 .stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
@@ -61,7 +61,7 @@ public class GlobalHandlerException {
      * @return ResponseEntity with error details
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(final ConstraintViolationException ex) {
         log.error("Constraint violation: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("CONSTRAINT_VIOLATION", ex.getMessage()));
@@ -74,7 +74,7 @@ public class GlobalHandlerException {
      * @return ResponseEntity with error details
      */
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(final IllegalArgumentException ex) {
         log.error("Illegal argument: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("BAD_REQUEST", ex.getMessage()));
@@ -87,7 +87,7 @@ public class GlobalHandlerException {
      * @return ResponseEntity with error details
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGeneralException(final Exception ex) {
         log.error("An unexpected error occurred: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("INTERNAL_ERROR", "An unexpected error occurred"));

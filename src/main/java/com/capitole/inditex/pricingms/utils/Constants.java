@@ -5,7 +5,7 @@ package com.capitole.inditex.pricingms.utils;
  * This class is used to define static final constants that can be reused throughout the application.
  * It prevents instantiation by providing a private constructor.
  */
-public class Constants {
+public final class Constants {
 
     public static final String NO_APPLICABLE = "No applicable price found";
 

@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Represents an error response that includes a code and a message.
  * This is used to provide structured error information in API responses.
+ * @param code    The error code that identifies the type of error.
+ * @param message A human-readable message that describes the error.
  */
 @Schema(name = "ErrorResponse", description = "Error response with code and message")
 public record ErrorResponse(

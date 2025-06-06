@@ -1,0 +1,156 @@
+apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+ext {
+    minCoverageRates = [
+        'branch': 95,
+        'instruction': 95,
+        'line': 95,
+        'method': 95,
+        'complexity': 95,
+        'class': 95
+    ]
+
+    checkStyleExclusions = []
+
+    jacocoMinCoverageRates = [
+        'branch': 95,
+        'instruction': 95,
+        'line': 95,
+        'method': 95,
+        'complexity': 95,
+        'class': 95
+    ]
+
+    jacocoExclusions = [
+            'com/capitole/inditex/pricingms/PricingmsApplication',
+        '**/config/**',
+        '**/model/**',
+        '**/entity/**',
+        '**/mapper/**',
+        '**/utils/**'
+    ]
+
+}
+
+checkstyle {
+    configFile rootProject.file("checkstyle.xml")
+    sourceSets = [project.sourceSets.main]
+}
+
+tasks.withType(Checkstyle).configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+        html.destination file("$buildDir/reports/checkstyle/checkstyle.html")
+    }
+
+    exclude checkStyleExclusions
+}
+
+tasks.withType(Checkstyle).each { checkstyleTask ->
+    checkstyleTask.doLast {
+
+        def htmlReport = file("${buildDir}/reports/checkstyle/checkstyle.html")
+        if(htmlReport.exists() && (htmlReport.text.contains("<error ") || htmlReport.text.contains(">warning<"))) {
+            String amarillo = "\u001B[1;33m";
+            String negrita = "\u001B[0m";
+
+            String mensajeResaltado = amarillo + "Checkstyle violations found. Please review the report at: " + htmlReport + negrita;
+
+            throw  new GradleException(mensajeResaltado);
+        }
+    }
+}
+
+jacoco {
+    reportsDirectory = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+
+    reports {
+        xml.required = true
+        html.required = true
+        html.destination file("$buildDir/reports/jacoco")
+        xml.destination file("$buildDir/reports/jacocoTestReport.xml")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExclusions)
+        }))
+    }
+
+    doLast {
+        coverageVerification("build/reports/jacocoTestReport.xml", jacocoMinCoverageRates)
+    }
+}
+
+coveralls {
+    jacocoReportPath = file("build/reports/jacocoTestReport.xml")
+}
+
+def coverageVerification(reportPath, minRates) {
+    def reportFile = file(reportPath)
+
+    String amarillo = "\u001B[1;33m";
+    String negrita = "\u001B[0m";
+
+    logger.lifecycle("${amarillo}Verifying coverage report at: ${reportFile}${negrita}")
+
+    def parser = new XmlParser()
+
+    parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+
+    def results = parser.parse(reportFile)
+
+    def percentage = {
+        if (it != null) {
+            def covered = it.'@covered' as Double
+            def missed = it.'@missed' as Double
+
+            return ((covered / (covered + missed)) * 100).round(2)
+        }
+
+        return 100
+    }
+
+    def counters = results.counter
+    def metrics = [:]
+
+    metrics << [
+        'branch': percentage(counters.find { it.'@type' == 'BRANCH' }),
+        'instruction': percentage(counters.find { it.'@type' == 'INSTRUCTION' }),
+        'line': percentage(counters.find { it.'@type' == 'LINE' }),
+        'method': percentage(counters.find { it.'@type' == 'METHOD' }),
+        'complexity': percentage(counters.find { it.'@type' == 'COMPLEXITY' }),
+        'class': percentage(counters.find { it.'@type' == 'CLASS' })
+    ]
+
+    def failures = []
+    def successes = []
+
+    metrics.each {
+        def limit = minCoverageRates[it.key]
+        def coverageRate = "- ${it.key} coverage: ${it.value}% (limit: ${limit}%)"
+        if (it.value < limit) {
+            failures << coverageRate
+        } else {
+            successes << coverageRate
+        }
+    }
+
+    if (failures) {
+        String mensajeResaltado = amarillo + "Coverage verification failed:\n" + failures.join("\n") + negrita;
+        throw new GradleException(mensajeResaltado);
+    } else {
+        logger.lifecycle("${amarillo}Coverage verification succeeded:\n${successes.join("\n")}${negrita}");
+
+        successes.each {
+            logger.quiet(it)
+        }
+    }
+}
