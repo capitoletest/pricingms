@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   pricing-service:
@@ -6,13 +6,11 @@ services:
     container_name: pricing-service
     ports:
       - "8080:8080"
-      - "8081:8081"
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:
-      - pricing-net
+      - backend
     restart: unless-stopped
 
 networks:
-  pricing-net:
-    driver: bridge
+  backend:

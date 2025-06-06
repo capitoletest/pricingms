@@ -1,5 +1,6 @@
 package com.capitole.inditex.pricingms.infrastructure.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  *   for REST controllers in a Spring Boot application.
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalHandlerException {
 
     /**
@@ -30,6 +32,7 @@ public class GlobalHandlerException {
      */
     @ExceptionHandler(PriceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handlePriceNotFound(PriceNotFoundException ex) {
+        log.error("Price not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse("PRICE_NOT_FOUND", ex.getMessage()));
     }
@@ -46,6 +49,7 @@ public class GlobalHandlerException {
                 .stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.joining(", "));
+        log.error("Validation errors: {}", message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("VALIDATION_ERROR", message));
     }
@@ -58,6 +62,7 @@ public class GlobalHandlerException {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
+        log.error("Constraint violation: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("CONSTRAINT_VIOLATION", ex.getMessage()));
     }
@@ -70,6 +75,7 @@ public class GlobalHandlerException {
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        log.error("Illegal argument: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("BAD_REQUEST", ex.getMessage()));
     }
@@ -82,6 +88,7 @@ public class GlobalHandlerException {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+        log.error("An unexpected error occurred: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("INTERNAL_ERROR", "An unexpected error occurred"));
     }

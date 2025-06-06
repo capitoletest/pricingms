@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +57,7 @@ public class PriceController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<PriceResponse> getPrice(@RequestBody final GetPriceCommand command) {
+    public ResponseEntity<PriceResponse> getPrice(@Valid @RequestBody final GetPriceCommand command) {
         PriceResponse response = getPriceLogic.execute(command);
         return ResponseEntity.ok(response);
     }

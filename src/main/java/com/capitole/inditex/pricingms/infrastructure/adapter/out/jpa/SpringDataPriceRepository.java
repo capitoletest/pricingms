@@ -6,13 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Spring Data JPA repository for managing PriceEntity instances.
  * Provides methods to query prices based on brand ID, product ID, and application date.
  */
-public interface SpringDataPriceRepository extends JpaRepository<PriceEntity, UUID> {
+public interface SpringDataPriceRepository extends JpaRepository<PriceEntity, Integer> {
 
     /**
      * Finds a list of PriceEntity instances based on the given brand ID, product ID, and application date.
@@ -28,5 +27,5 @@ public interface SpringDataPriceRepository extends JpaRepository<PriceEntity, UU
             WHERE p.brandId = :brandId AND p.productId = :productId
             AND :applicationDate BETWEEN p.startDate AND p.endDate
             """)
-    List<PriceEntity> findByBrandIdAndProductIdAndDate(UUID brandId, UUID productId, LocalDateTime applicationDate);
+    List<PriceEntity> findByBrandIdAndProductIdAndDate(Integer brandId, Integer productId, LocalDateTime applicationDate);
 }
