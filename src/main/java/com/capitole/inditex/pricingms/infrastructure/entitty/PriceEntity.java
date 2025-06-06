@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Entity representing a price in the pricing system.
@@ -24,13 +23,13 @@ public class PriceEntity {
      */
     @Id
     @Column(name = "prices_id", nullable = false)
-    private UUID id;
+    private Integer id;
 
     /**
      * Identifier for the brand associated with the price.
      */
     @Column(name = "prices_brand_id", nullable = false)
-    private UUID brandId;
+    private Integer brandId;
 
     /**
      * Start date when the price becomes applicable.
@@ -54,7 +53,7 @@ public class PriceEntity {
      * Identifier for the product associated with the price.
      */
     @Column(name = "prices_product_id", nullable = false)
-    private UUID productId;
+    private Integer productId;
 
     /**
      * Priority of the price in case multiple prices apply at the same time.

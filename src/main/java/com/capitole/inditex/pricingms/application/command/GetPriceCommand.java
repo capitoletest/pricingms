@@ -1,9 +1,9 @@
 package com.capitole.inditex.pricingms.application.command;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Command to retrieve the price for a specific product and brand at a given application date.
@@ -11,18 +11,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "GetPriceCommand", description = "Request object containing the necessary data to retrieve a price.")
 public record GetPriceCommand(
 
+        @NotNull(message = "brandId must not be null")
         @Schema(
                 description = "The unique identifier of the brand",
-                example = "50accdf5-b58a-4878-9254-aa86c1e9ef8b"
+                example = "1"
         )
-        UUID brandId,
+        Integer brandId,
 
+        @NotNull(message = "brandId must not be null")
         @Schema(
                 description = "The unique identifier of the product",
-                example = "ca782e22-8210-4bdc-9e19-f6af08efd0d5"
+                example = "35455"
         )
-        UUID productId,
+        Integer productId,
 
+        @NotNull(message = "brandId must not be null")
         @Schema(
                 description = "The date and time when the price is requested",
                 example = "2020-06-14T10:00:00"

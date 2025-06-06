@@ -6,6 +6,7 @@ import com.capitole.inditex.pricingms.application.usecase.GetPriceLogic;
 import com.capitole.inditex.pricingms.domain.model.Price;
 import com.capitole.inditex.pricingms.domain.port.PriceRepositoryPort;
 import com.capitole.inditex.pricingms.infrastructure.exception.PriceNotFoundException;
+import com.capitole.inditex.pricingms.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public final class GetPriceService implements GetPriceLogic {
                 .map(this::mapToResponse)
                 .orElseThrow(() -> {
                     log.warn("No applicable price found for the request");
-                    return new PriceNotFoundException("No applicable price found");
+                    return new PriceNotFoundException(Constants.NO_APPLICABLE);
                 });
     }
 
@@ -59,13 +60,10 @@ public final class GetPriceService implements GetPriceLogic {
      */
     private PriceResponse mapToResponse(Price price) {
         return new PriceResponse(
-                price.id(),
                 price.brandId(),
                 price.productId(),
                 price.priceList(),
-                price.priority(),
                 price.price(),
-                price.currency(),
                 price.startDate(),
                 price.endDate()
         );

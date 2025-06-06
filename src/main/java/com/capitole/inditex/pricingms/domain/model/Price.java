@@ -22,16 +22,6 @@ import java.util.UUID;
  */
 
 @Builder
-public record Price(UUID id, UUID brandId, LocalDateTime startDate, LocalDateTime endDate, Integer priceList,
-                    UUID productId, Integer priority, BigDecimal price, String currency) {
-
-    /**
-     * Checks if the price applies to a given application date.
-     *
-     * @param applicationDate the date to check against the price's start and end dates
-     * @return true if the price is applicable on the given date, false otherwise
-     */
-    public boolean appliesTo(LocalDateTime applicationDate) {
-        return !applicationDate.isBefore(startDate) && !applicationDate.isAfter(endDate);
-    }
+public record Price(Integer id, Integer brandId, LocalDateTime startDate, LocalDateTime endDate, Integer priceList,
+                    Integer productId, Integer priority, BigDecimal price, String currency) {
 }
