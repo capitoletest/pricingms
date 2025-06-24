@@ -39,7 +39,8 @@ class PriceControllerIntegrationTest {
                         .content(asJson(1, 35455, LocalDateTime.of(2020, 6, 14, 10, 0))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.brandId").value(1))
-                .andExpect(jsonPath("$.productId").value(35455));
+                .andExpect(jsonPath("$.productId").value(35455))
+                .andExpect(jsonPath("$.price").value(35.50));
     }
 
     @Test
@@ -50,7 +51,8 @@ class PriceControllerIntegrationTest {
                         .content(asJson(1, 35455, LocalDateTime.of(2020, 6, 14, 16, 0))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.brandId").value(1))
-                .andExpect(jsonPath("$.productId").value(35455));
+                .andExpect(jsonPath("$.productId").value(35455))
+                .andExpect(jsonPath("$.price").value(25.45));
     }
 
     @Test
@@ -61,7 +63,8 @@ class PriceControllerIntegrationTest {
                         .content(asJson(1, 35455, LocalDateTime.of(2020, 6, 14, 21, 0))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.brandId").value(1))
-                .andExpect(jsonPath("$.productId").value(35455));
+                .andExpect(jsonPath("$.productId").value(35455))
+                .andExpect(jsonPath("$.price").value(35.50));
     }
 
     @Test
@@ -72,7 +75,8 @@ class PriceControllerIntegrationTest {
                         .content(asJson(1, 35455, LocalDateTime.of(2020, 6, 15, 10, 0))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.brandId").value(1))
-                .andExpect(jsonPath("$.productId").value(35455));
+                .andExpect(jsonPath("$.productId").value(35455))
+                .andExpect(jsonPath("$.price").value(30.50));
     }
 
     @Test
@@ -83,6 +87,7 @@ class PriceControllerIntegrationTest {
                         .content(asJson(1, 35455, LocalDateTime.of(2020, 6, 16, 21, 0))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.brandId").value(1))
-                .andExpect(jsonPath("$.productId").value(35455));
+                .andExpect(jsonPath("$.productId").value(35455))
+                .andExpect(jsonPath("$.price").value(38.95));
     }
 }
