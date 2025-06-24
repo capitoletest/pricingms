@@ -39,6 +39,7 @@ class JpaPriceAdapterIntegrationTest extends IntegrationTestBase {
         assertEquals(1, price.brandId());
         assertEquals(35455, price.productId());
         assertEquals("EUR", price.currency());
+        assertEquals(35.50, price.price().doubleValue(), 0.01, "Expected price to be 35.50");
     }
 
     @Test
